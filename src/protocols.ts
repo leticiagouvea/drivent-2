@@ -28,3 +28,13 @@ export type RequestError = {
   name: string,
   message: string,
 };
+
+export type TicketAndTicketTypeEntity = {
+  id: number,
+  status: string,
+  ticketTypeId: number,
+  enrollmentId: number,
+  createdAt: Date,
+  updatedAt: Date,
+  TicketType: TicketType
+};
