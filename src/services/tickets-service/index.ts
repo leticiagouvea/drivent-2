@@ -19,10 +19,15 @@ async function getTicketByEnrollmentId(enrollmentId: number): Promise<TicketType
   return ticketResult;
 }
 
+async function  createUserTicket(ticketTypeId: number, enrollmentId: number) {
+  return await ticketRepository.createTicket(ticketTypeId, enrollmentId);
+}
+
 const ticketService = {
   getTicketTypes,
   getTicketByUser,
-  getTicketByEnrollmentId
+  getTicketByEnrollmentId,
+  createUserTicket
 };
 
 export default ticketService;

@@ -37,3 +37,26 @@ export async function getTicketById(req: AuthenticatedRequest, res: Response) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
+
+export async function createTicket(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+  const { ticketTypeId } = req.body;
+
+  if(!ticketTypeId) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+
+  try {
+    const getEnrollmentByUserId = await enrollmentsService.getOneWithAddressByUserId(userId);
+
+    const enrollmentId = getEnrollmentByUserId.id;
+
+    await ticketService.createUserTicket(ticketTypeId, enrollmentId);
+
+    const ticket = await ticketService.getTicketByEnrollmentId(enrollmentId);
+
+    return res.status(httpStatus.CREATED).send(ticket);
+  } catch (error) {
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
+}
